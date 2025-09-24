@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { state } from "../state.js";
+import { state } from "../state.js"; // shared in-memory state to store leads
 import { Parser } from 'json2csv'
 
 const router = Router();
 
+// GET Route for results of score
 router.get("/", (req, res) => {
     if (!state.scoredLeads || state.scoredLeads.length === 0) {
         return res.status(400).json({ error: "No scored leads found. Run /score first." })
@@ -11,6 +12,7 @@ router.get("/", (req, res) => {
     res.json(state.scoredLeads)
 })
 
+// GET Route for results of score in CSV format
 router.get("/csv", (req, res) => {
     if (!state.scoredLeads || state.scoredLeads.length === 0) {
         return res.status(400).json({ error: "No scored leads found. Run /score first." })

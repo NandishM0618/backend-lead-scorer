@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { state } from "../state.js";
+import { state } from "../state.js"; // shared in-memory state to store leads
 
 const router = Router();
 
+// POST route to upload product/offer details
 router.post("/", (req, res) => {
     const { name, value_props, ideal_use_cases } = req.body;
 

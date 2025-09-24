@@ -2,6 +2,7 @@ import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv'
 
 dotenv.config()
+// The GoogleGenAI client automatically looks for the GEMINI_API_KEY or GOOGLE_API_KEY environment variable.
 const client = new GoogleGenAI({})
 
 export default async function aiScoreLead(lead: any, offer: any) {
@@ -22,12 +23,14 @@ export default async function aiScoreLead(lead: any, offer: any) {
     `;
 
     try {
+        // Use the ai client for Gemini API calls
         const response = await client.models.generateContent({
             model: "gemini-2.5-flash",
             contents: [{ role: "user", parts: [{ text: prompt }] }],
             config: {
                 temperature: 0,
                 maxOutputTokens: 500,
+                // To help enforce the JSON output format, although the prompt is usually enough
                 responseMimeType: "application/json",
                 responseSchema: {
                     type: "object",
@@ -46,6 +49,7 @@ export default async function aiScoreLead(lead: any, offer: any) {
             }
         })
 
+        // The response.text will contain the raw JSON string because of the responseMimeType setting
         let text = response.text!.trim();
         text = text.replace(/```json\s*/i, '').replace(/\s*```/g, '');
         text = text.trim();
@@ -56,6 +60,8 @@ export default async function aiScoreLead(lead: any, offer: any) {
         }
         const jsonString = jsonMatch[0];
         const cleanJsonString = jsonString.replace(/[\n\t]/g, ' ');
+
+        // Parse the cleanJsonString 
         const aiResult = JSON.parse(cleanJsonString);
         // const aiResult = JSON.parse(text);
 
