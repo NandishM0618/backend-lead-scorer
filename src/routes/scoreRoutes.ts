@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
             ...lead,
             score: finalScore,
             intent: intentLabel,
-            reasoning: `${ruleReasons.join("; ")}; AI : ${aiExplanation}`
+            reasoning: `${aiExplanation}`
         })
     }
     state.scoredLeads = results
