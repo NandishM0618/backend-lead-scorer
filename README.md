@@ -189,7 +189,7 @@ docker run -p 4000:4000 --env-file .env lead-scorer
 ```
 
 ## 📹 Loom Demo
-https://www.loom.com/share/4c469b10c17a44ada0d101dd79538a1b?sid=803cb5de-a989-4590-a54a-d969006707b2
+[Demo video](https://www.loom.com/share/4c469b10c17a44ada0d101dd79538a1b?sid=803cb5de-a989-4590-a54a-d969006707b2)
 
-## Public Web URL
-https://backend-lead-scorer-5q5x.onrender.com/
+## 🌐 Public Web URL
+[Live URL](https://backend-lead-scorer-5q5x.onrender.com/)
