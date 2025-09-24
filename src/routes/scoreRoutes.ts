@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { state } from "../state.js";
 import scoreByRules from "../services/ruleScorer.js";
+import aiScoreLead from "../services/aiService.js";
 
 const router = Router();
 
@@ -11,19 +12,22 @@ router.post("/", async (req, res) => {
     const results: any[] = [];
     for (const lead of state.leads) {
         const { ruleScore, ruleReasons } = scoreByRules(lead, state.currentOffer);
+        const { aiPoints, aiIntent, aiExplanation } = await aiScoreLead(lead, state.currentOffer)
 
+        const finalScore = ruleScore + aiPoints
         let intentLabel = "Low";
-        if (ruleScore >= 75) intentLabel = "High";
-        else if (ruleScore >= 40) intentLabel = "Medium"
+        if (finalScore >= 75) intentLabel = "High";
+        else if (finalScore >= 40) intentLabel = "Medium"
 
         results.push({
             ...lead,
-            score: ruleScore,
+            score: finalScore,
             intent: intentLabel,
-            reasoning: ruleReasons
+            reasoning: `${ruleReasons.join("; ")}; AI : ${aiExplanation}`
         })
     }
     state.scoredLeads = results
+
     res.json({ message: "Scoring completed", count: results.length, scoredLead: results })
 })
 
