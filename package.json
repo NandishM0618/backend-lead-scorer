@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "node --loader ts-node/esm src/server.ts",
-    "test": "node --loader ts-node/esm --test src/services/__tests__/*.ts"
+    "test": "node --loader ts-node/esm --test src/services/__tests__/*.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
